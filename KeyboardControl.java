@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jbt.management;
+package org.jbt.userInput;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -18,8 +18,9 @@ public class KeyboardControl implements KeyListener
     private static HashSet <Integer> activeKeys; //static because there is only one instance of keys
     public KeyboardControl()
     {
-        System.out.println("New KeyboardControl Made");
+        System.out.println("\nMaking New KeyboardControl");
         activeKeys = new HashSet<Integer>();
+        System.out.println("New KeyboardControl Made");
     }
     @Override
     public void keyTyped(KeyEvent e) 

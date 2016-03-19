@@ -1,6 +1,5 @@
 package org.jbt.gameComponents;
 
-
 /**
  *
  * @author jbt
@@ -11,5 +10,4 @@ public class GenericTile extends Tile
     {
         super("GXXX", x , y);
     }
-    
 }

@@ -9,11 +9,10 @@ package org.jbt.gameComponents;
  *
  * @author jbt
  */
-public class NullTile extends Tile
+public class BorderTile extends Tile
 {
-    public NullTile(int x, int y) 
+    public BorderTile(int x, int y) 
     {
-        //super("GXXX", x , y);
-        super("TRAN", x , y);
+        super("BXXX", x , y);
     }
 }

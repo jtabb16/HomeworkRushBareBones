@@ -1,10 +1,15 @@
-package org.jbt.synthesizedGameComponents;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package org.jbt.fileIO;
 
 import java.io.BufferedReader;
+//import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import org.jbt.gameComponents.GenericTile;
 import org.jbt.gameComponents.NullTile;
 import org.jbt.gameComponents.Tile;
@@ -15,100 +20,100 @@ import org.jbt.gameComponents.Tile;
  */
 public class LevelLoader 
 {
-    Tile [][] tileMap;
-    int levelNum;
-    public LevelLoader(int levelNum)
+    //File file;
+    private final String nameOfFile;
+    private Tile [][] tileMap;
+    public LevelLoader(String fileName)
     {
-        this.levelNum = levelNum;
+        System.out.println("\nMaking New LevelLoader");
+        nameOfFile = fileName;
+        //primeFile(fileName);
         System.out.println("New LevelLoader Made");
     }
     
-    /**
-     *
-     */
-    protected void loadLevelMap()
+    /*
+    private void primeFile(String fName)
     {
-        //Load the tiles for levelNum from a text file
+        //InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream("com/me/myapp/myconfig.txt");
+        InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream(fName);
+        
+        try
+        {
+            BufferedReader br = new BufferedReader (new InputStreamReader(is));
+        }
+        catch (NullPointerException e)
+        {
+            System.out.println("ERROR (NullPointerException) -- Unable to read file: " + fName);
+        }
+    }
+    */
+    
+    //Load the tiles from a text file
+    public void readFile()
+    {
+        InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream(nameOfFile);
         int numRowsOfTiles, numColsOfTiles;
-        try {
-            String s = "/"  + levelNum + ".level";
-            //InputStream in = getClass().getResourceAsStream(s);
-            //String locationOfS = "/resources/levels/"+String.valueOf(levelNum)+".level";
-            
-            URL location = LevelLoader.class.getProtectionDomain().getCodeSource().getLocation();
-            URL url = new URL (location + "levels/" + s);
-            
-           // InputStream in = ((new URL (getClass().getResourceAsStream("s"))).openStream());
-            //InputStream in = getClass().getResourceAsStream(locationOfS);
-            InputStream in = url.openStream();
-            
-            //if (url == null)
-                //System.out.println("File For Level " + levelNum + " NOT FOUND: " + "'" + url + "'");
-                
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            //BufferedReader br = new BufferedReader (new InputStreamReader (getClass().getResourceAsStream("../resources" + s)));
+        
+        int x = 0;
+        int y = 0;
+        
+        try
+        {
+            BufferedReader br = new BufferedReader (new InputStreamReader(is));
             numRowsOfTiles = Integer.parseInt(br.readLine());//Number of rows is on the first line
             numColsOfTiles = Integer.parseInt(br.readLine());//Number of columns is on the second line
             tileMap = new Tile[numRowsOfTiles][numColsOfTiles];
             
             System.out.println("TileMap will have " + tileMap.length + " Rows and " + tileMap[0].length + " Columns" );
-            //width = numCols * tileSize;
-            //height = numRows * tileSize;
-
-            //xmin = GamePanel.WIDTH - width;
-            //xmax = 0;
-            //ymin = GamePanel.HEIGHT - height;
-            //ymax = 0;
-
-            int x = 0;
-            int y = 0;
             
-            
-            String delims = " ";
+            String delims = " ";//Using one space as a delimmiter in the level file
             for(int row = 0; row < numRowsOfTiles; row++) 
             {
-                System.out.println("Row: " + row);
+                //System.out.println();
+                //System.out.println("Row: " + row);
                 String line = br.readLine();
-                System.out.println(line);
+                
+                if (line == null){
+                    System.out.println("ERROR: EMPTY TILE");
+                    System.out.println("Make sure that the level-map file has specifies the correct dimensions");
+                    System.out.println("Exiting with status 1 ( Good Luck Fixing The Error Jack :) )");
+                    System.exit(1);
+                }
+                
+                //System.out.println("d" + line + "p");
                 String[] tokens = line.split(delims);
-                System.out.println();
                 for(int col = 0; col < numColsOfTiles; col++) 
                 {
-                    System.out.println("Col: " + col);
-                    if (tokens[col].equals("GXXX"))
+                    //System.out.println("Col: " + col);
+                    String currentToken = tokens[col];
+                    switch (currentToken)
                     {
-                        tileMap[row][col] = new GenericTile(x,y);
-                        System.out.println(x + ", " + y);
+                        case "GXXX":
+                            tileMap[row][col] = new GenericTile(x,y);
+                            //System.out.println("Generic Tile Made At: " + x + ", " + y);
+                            break;
+                        case "TRAN":
+                            tileMap[row][col] = new NullTile(x,y);
+                            //System.out.println("Null Tile Made At: " + x + ", " + y);
+                            break;
+                        default:
+                            System.out.println("TOKEN FROM FILE NOT RECOGNIZED: " + tokens[col]);
+                            break;
                     }
-                    else if (tokens[col].equals("TRAN"))
-                    {
-                        //tileMap[numTilesWide][numTilesHigh] = new Tile(tokens[col]);
-                        //tileMap[row][col] = null;
-                        tileMap[row][col] = new NullTile(x,y);
-                        System.out.println("Null Tile Made");
-                    }
-                    else
-                    {
-                        System.out.println("TOKEN FROM LEVELMAP " + levelNum + " NOT RECOGNIZED: " + tokens[col]);
-                    }
-                    x += Tile.getTileWidth();//The tile width
+                    x+=Tile.getTileWidth();
                 }
-                x = 0;
-                y +=Tile.getTileHeight();//The tile Height
+                x = 0;//Reset to the left side
+                y +=Tile.getTileHeight();//The tile Height -- Shift down one tile each time
             }
-            
         }
-        catch(IOException | NumberFormatException e) 
+        catch (NullPointerException | IOException e)
         {
-            e.printStackTrace();
+            if (e.equals("NullPointerException"))
+                System.out.println("ERROR (NullPointerException) -- Unable to read file: " + nameOfFile);
+            else if (e.equals("IOException"))
+                System.out.println("ERROR (IOException) -- Unable to read line in file: " + nameOfFile);
         }
     }
     
-    protected Tile[][] getTiles()
-    {
-        //int mapWidth=0, mapHeight=0;
-        //Tile[][] tileMap = new Tile [mapWidth][mapHeight];
-        
-        return tileMap;
-    }
+    public Tile[][] getTiles(){ return tileMap; }
 }

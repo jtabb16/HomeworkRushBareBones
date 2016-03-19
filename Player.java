@@ -13,15 +13,12 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-//import org.jbt.synthesizedGameComponents.LevelLoader;
+
 /**
  *
  * @author jbt
- * Purpose: Define all properties that every tile needs and uses.
- *          Instantiable tiles will define their own unique properties, in addition to this class
- * 
  */
-public abstract class Tile //Abstract so that it cannot be instantiated. 
+public class Player extends Component
 {
     private Image image;
     
@@ -32,9 +29,9 @@ public abstract class Tile //Abstract so that it cannot be instantiated.
     private static final int TILE_WIDTH = 100;//100
     private static final int TILE_HEIGHT = 100;//100
     
-    public Tile(String tileName, int xC, int yC)
+    public Player(String tileName, int xC, int yC)
     {
-        //super(tileName, xC, yC, TILE_WIDTH, TILE_HEIGHT);
+        super (tileName, xC, yC, 10,10);
         //System.out.println("\nMaking New " + tileName + " Tile");
         loadTileImage (tileName + ".png");
         xCoord = xC;
@@ -44,15 +41,15 @@ public abstract class Tile //Abstract so that it cannot be instantiated.
         //System.out.println("New " + tileName + " Tile Made");
     }
     
-    public final void loadTileImage(String nameOfImage)
+    public final void loadTileImage(String nameOfTile)
     {
         URL location = Tile.class.getProtectionDomain().getCodeSource().getLocation();
         URL url = null;
         try {
-            url = new URL (location + "images/" + nameOfImage);
+            url = new URL (location + "images/" + nameOfTile);
         } catch (MalformedURLException | NullPointerException e) {
             Logger.getLogger(Tile.class.getName()).log(Level.SEVERE, null, e);
-            System.out.println ("ERROR Loading Images : Component.java");
+            System.out.println ("ERROR Loading Images : Tile.java");
         }
         
         ImageIcon ii = new ImageIcon(url);
