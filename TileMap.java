@@ -22,7 +22,7 @@ public class TileMap
         System.out.println("New TileMap For Level " + levelName + " Made");
     }
     
-    public final void drawTiles(Graphics2D gfx, int frameWidth, int frameHeight)
+    public final void drawTiles(Graphics2D gfx, int frameWidth, int frameHeight, double extrapolationValue)
     {
         for (Tile[] tileArray1 : tileArray) {
             for (Tile item : tileArray1) {
@@ -33,7 +33,7 @@ public class TileMap
                     if ( (item.getXCoord() > (0 - Tile.getTileWidth())) && (item.getXCoord() < (frameWidth + Tile.getTileWidth())) 
                         && (item.getYCoord() > (0 - Tile.getTileHeight())) && (item.getYCoord() < (frameHeight + Tile.getTileHeight())) )
                     {
-                        item.drawTile(gfx);
+                        item.drawTile(gfx, extrapolationValue);
                     }
                 }
             }

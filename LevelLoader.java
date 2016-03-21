@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import org.jbt.gameComponents.GenericTile;
-import org.jbt.gameComponents.NullTile;
+import org.jbt.gameComponents.TransparentTile;
 import org.jbt.gameComponents.Tile;
 
 /**
@@ -93,7 +93,7 @@ public class LevelLoader
                             //System.out.println("Generic Tile Made At: " + x + ", " + y);
                             break;
                         case "TRAN":
-                            tileMap[row][col] = new NullTile(x,y);
+                            tileMap[row][col] = new TransparentTile(x,y);
                             //System.out.println("Null Tile Made At: " + x + ", " + y);
                             break;
                         default:

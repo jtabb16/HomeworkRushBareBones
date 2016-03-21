@@ -9,9 +9,9 @@ package org.jbt.boundaryDetection;
  *
  * @author jbt
  */
-public class TileBoundary extends Boundary
+public class EntityBoundary extends Boundary
 {
-    public TileBoundary(int x, int y, int w, int h)
+    public EntityBoundary(int x, int y, int w, int h)
     {
         super(x,y,w,h);
     }

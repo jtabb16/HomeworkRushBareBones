@@ -197,7 +197,7 @@ public class DisplayFrame
         lastTime = curTime;
         curTime = System.currentTimeMillis();
         totalTime += curTime - lastTime;
-        if( totalTime > 1000 ) 
+        if( totalTime > 1000 ) //1000 mS in 1 Second
         {
             totalTime -= 1000;
             fps = frames;

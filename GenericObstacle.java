@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jbt.boundaryDetection;
+package org.jbt.gameComponents;
 
 /**
  *
  * @author jbt
  */
-public class TileBoundary extends Boundary
+public class GenericObstacle extends Obstacle
 {
-    public TileBoundary(int x, int y, int w, int h)
+    public GenericObstacle(int x, int y)
     {
-        super(x,y,w,h);
+        super("GOOO", x, y);
     }
 }

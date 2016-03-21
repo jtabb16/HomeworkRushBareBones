@@ -11,7 +11,7 @@ import org.jbt.management.GameManager;
 /**
  *
  * @author jbt
- * @version 1.0.0
+ * @version 1.1.0
  * Date: 3/16/16
  */
 public class Main 
